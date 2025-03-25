@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>购物车 - 伊卡奶茶店</title>
-    <!-- <link rel="stylesheet" href="styles.css"> Assuming you have a CSS file -->
+    <link rel="stylesheet" href="styles.css"> <!-- Assuming you have a CSS file -->
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -16,11 +16,23 @@
         header {
             background-color: #ff6b6b;
             color: white;
-            padding: 40px 20px;
+            /* padding: 0px 20px; */
+            text-align: center;
+            height: 80px;
+        }
+        nav {
+            background-color: #ff8e8e;
+            padding: 10px;
             text-align: center;
         }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+        }
         main {
-            padding: 40px 20px;
+            padding: 20px 20px;
             max-width: 1200px;
             margin: 0 auto;
         }
@@ -30,6 +42,17 @@
             padding: 20px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             margin-bottom: 20px;
+            display: flex; /* 使用 Flexbox */
+            justify-content: space-between; /* 使内容两端对齐 */
+            align-items: center; /* 垂直居中对齐 */
+        }
+        .cart-item .left {
+            flex-grow: 1; /* 使左侧内容占据剩余空间 */
+        }
+        .cart-item .right {
+            display: flex; /* 使用 Flexbox */
+            flex-direction: column; /* 垂直排列 */
+            align-items: flex-end; /* 右对齐 */
         }
         .cart-item h3 {
             margin: 10px 0;
@@ -48,49 +71,98 @@
             padding: 20px;
             margin-top: 40px;
         }
+        .remove-button {
+            margin-top: 10px; /* 添加上边距 */
+        }
+        .total-container {
+            display: flex; /* 使用 Flexbox */
+            justify-content: space-between; /* 使内容两端对齐 */
+            align-items: center; /* 垂直居中对齐 */
+            margin-bottom: 20px; /* 添加底部边距 */
+        }
+        .total-amount {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .checkout-button {
+            padding: 10px 20px; /* 按钮内边距 */
+            background-color: #ff6b6b; /* 按钮背景色 */
+            color: white; /* 按钮文字颜色 */
+            border: none; /* 去掉边框 */
+            border-radius: 5px; /* 圆角 */
+            cursor: pointer; /* 鼠标悬停时显示手型 */
+            font-size: 16px; /* 字体大小 */
+        }
+        .checkout-button:hover {
+            background-color: #ff4c4c; /* 悬停时的背景色 */
+        }
     </style>
 </head>
 <body>
     <header>
         <h1>伊卡奶茶店购物车</h1>
     </header>
+    <nav>
+        <a href="index.html">首页</a>
+        <a href="menu.html">菜单</a>
+        <a href="about.html">关于我们</a>
+        <a href="contact.html">联系我们</a>
+        <a href="cart.html">购物车</a>
+    </nav>
     <main>
         <h2>购物车</h2>
+        <div class="total-container">
+            <div class="total-amount" id="totalAmount">总金额: ¥0.00</div>
+            <button class="checkout-button" onclick="checkout()">结算</button>
+        </div>
         <div id="cartItemsContainer">
             <!-- 购物车中的商品将在这里动态显示 -->
         </div>
-        <button onclick="checkout()">结算</button>
     </main>
     <footer>
         <p>© 2023 伊卡奶茶店. 保留所有权利.</p>
     </footer>
     
     <script>
-        fetch('/api/cart')
-            .then(response => response.json())
-            .then(data => {
-                Items = data;  // 存储所有产品数据
+    document.addEventListener('DOMContentLoaded', function() {
+        loadCartItems();
 
-                // alert(JSON.stringify(Items, null, 2));
+        function loadCartItems() {
+            const cartItemsContainer = document.getElementById('cartItemsContainer');
+            const totalAmountElement = document.getElementById('totalAmount');
 
+            // 从服务器获取购物车数据
+            fetch('/api/cart')  // 确保路径正确
+                .then(response => response.json())
+                .then(cartItems => {
+                    let totalAmount = 0; // 初始化总金额
+                    if (cartItems.length === 0) {
+                        cartItemsContainer.innerHTML = '<p>您的购物车是空的。</p>';
+                    } else {
+                        cartItemsContainer.innerHTML = cartItems.map(item => {
+                            totalAmount += item.product_price * item.product_num; // 计算总金额
+                            return `
+                                <div class="cart-item">
+                                    <div class="left">
+                                        <h3>${item.product_name}</h3>
+                                        <button class="remove-button" onclick="removeFromCart(${item.product_id})">移除</button>
+                                    </div>
+                                    <div class="right">
+                                        <p>数量: ${item.product_num}</p>
+                                        <p>价格: ¥${item.product_price}</p>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('');  // 使用 join('') 将数组转换为字符串
+                    }
+                    totalAmountElement.innerText = `总金额: ¥${totalAmount.toFixed(2)}`; // 更新总金额显示
+                })
+                .catch(error => {
+                    console.error('获取购物车数据时出错:', error);
+                    cartItemsContainer.innerHTML = '<p>无法加载购物车数据。</p>';
+                });
+        }
 
-                const productsToShow = Items
-
-                alert(JSON.stringify(Items, null, 2));
-                cartItemsContainer.innerHTML = productsToShow.map(item => `
-                    <div class="cart-item">
-                        <h3>${item.product_name}</h3>
-                        <p>数量: ${item.product_num}</p>
-                        <p>价格: ¥${item.product_price}</p>
-                        <button onclick="removeFromCart(${item.product_id})">移除</button>
-                    </div>
-                `).join('');  // 使用 join('') 将数组转换为字符串
-            })
-            .catch(error => {
-                console.error('获取购物车数据时出错:', error);
-                cartItemsContainer.innerHTML = '<p>无法加载购物车数据。</p>';
-            });
-     
         function removeFromCart(productId) {
             // 发送请求到服务器以移除购物车中的商品
             fetch(`/api/removeFromCart/${productId}`, { method: 'DELETE' })
@@ -108,8 +180,10 @@
             // 结账逻辑
             alert('结账功能尚未实现。');
         }
+
         // 页面加载时调用
-        window.onload = loa
+        window.onload = loadCartItems;
+    });
     </script>
 </body>
 </html>
