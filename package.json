@@ -98,5 +98,13 @@
   },
   "author": "yika",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abcryingfish/special.git"
+  },
+  "bugs": {
+    "url": "https://github.com/abcryingfish/special/issues"
+  },
+  "homepage": "https://github.com/abcryingfish/special#readme",
   "description": ""
 }
