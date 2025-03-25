@@ -91,3 +91,16 @@ app.listen(PORT, () => {
 });
 
 
+// server.js 或相应的后端文件
+app.delete('/api/cart/:product_id', (req, res) => {
+    const productId = req.params.product_id;
+
+    // 假设您使用 MySQL 数据库
+    const sql = 'DELETE FROM cart WHERE product_id = ?';
+    db.query(sql, [productId], (err, result) => {
+        if (err) {
+            return res.status(500).json({ error: '删除商品失败' });
+        }
+        res.status(200).json({ message: '商品已成功移除' });
+    });
+});

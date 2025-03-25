@@ -124,8 +124,32 @@
     </footer>
     
     <script>
+        function removeFromCart(product_id) {
+            fetch('/api/cart/${product_id}', { method: 'DELETE' })
+            
+            .then(response => {
+                    alert('123')
+                    if (response.ok) {
+                        alert('OK')
+                        // loadCartItems();  // 重新加载购物车
+                    } else {
+                        console.error('移除商品失败');
+                    }
+                })
+                .catch(error => console.error('移除商品时出错:', error));
+        }
+
+        function checkout() {
+            // 结账逻辑
+            alert('结账功能尚未实现。');
+        }
+
+
+
     document.addEventListener('DOMContentLoaded', function() {
         loadCartItems();
+
+        
 
         function loadCartItems() {
             const cartItemsContainer = document.getElementById('cartItemsContainer');
@@ -161,24 +185,6 @@
                     console.error('获取购物车数据时出错:', error);
                     cartItemsContainer.innerHTML = '<p>无法加载购物车数据。</p>';
                 });
-        }
-
-        function removeFromCart(productId) {
-            // 发送请求到服务器以移除购物车中的商品
-            fetch(`/api/removeFromCart/${productId}`, { method: 'DELETE' })
-                .then(response => {
-                    if (response.ok) {
-                        loadCartItems();  // 重新加载购物车
-                    } else {
-                        console.error('移除商品失败');
-                    }
-                })
-                .catch(error => console.error('移除商品时出错:', error));
-        }
-
-        function checkout() {
-            // 结账逻辑
-            alert('结账功能尚未实现。');
         }
 
         // 页面加载时调用
