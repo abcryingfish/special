@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>关于我们 - 伊卡奶茶店</title>
+    <style>
+        /* 复用index.html的样式 */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+            color: #333;
+        }
+        header {
+            background-color: #ff6b6b;
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        nav {
+            background-color: #ff8e8e;
+            padding: 10px;
+            text-align: center;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+        }
+        main {
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .about-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+        .about-image img {
+            width: 100%;
+            border-radius: 8px;
+        }
+        .history {
+            margin-top: 40px;
+        }
+        .history-item {
+            margin-bottom: 30px;
+            padding-left: 20px;
+            border-left: 3px solid #ff6b6b;
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>伊卡奶茶店</h1>
+        <p>每一杯都是用心制作的美味</p>
+    </header>
+    <nav>
+        <a href="index.html">首页</a>
+        <a href="menu.html">菜单</a>
+        <a href="about.html">关于我们</a>
+        <a href="contact.html">联系我们</a>
+    </nav>
+
+    <main>
+        <h2>关于我们</h2>
+        <div class="about-container">
+            <div>
+                <h3>我们的故事</h3>
+                <p>伊卡奶茶店成立于2020年，从最初的小型创业公司发展成为如今拥有200多名员工的高科技企业。我们始终坚持以技术创新为核心，为客户提供优质的服务。</p>
+                <p>我们的愿景是成为行业领先的科技解决方案提供商，推动中国企业的数字化转型。</p>
+            </div>
+            <div class="about-image">
+                <img src="images/about.jpg" alt="关于我们">
+            </div>
+        </div>
+
+        <div class="history">
+            <h3>发展历程</h3>
+            <div class="history-item">
+                <h4>2020年</h4>
+                <p>公司成立，专注于企业软件开发</p>
+            </div>
+            <div class="history-item">
+                <h4>2021年</h4>
+                <p>拓展云计算服务，客户数量突破100家</p>
+            </div>
+            <div class="history-item">
+                <h4>2022年</h4>
+                <p>获得国家高新技术企业认证</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2023 伊卡奶茶店. 保留所有权利.</p>
+        <p>地址：上海市浦东新区奶茶路123号 | 电话：021-12345678</p>
+    </footer>
+
+    <script>
+    function addToCart(product) {
+        const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+        cartItems.push(product);
+        localStorage.setItem('cartItems', JSON.stringify(cartItems));
+        alert('Added to cart!');
+    }
+    </script>
+</body>
+</html> 

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>支付 - 空美町在线商店</title>
+    <style>
+        /* 复用index.html的样式 */
+    </style>
+</head>
+<body>
+    <header>
+        <h1>空美町在线商店</h1>
+        <nav>
+            <a href="index.html">首页</a> |
+            <a href="login.html">登录</a> |
+            <a href="register.html">注册</a>
+        </nav>
+    </header>
+
+    <main>
+        <h2>支付页面</h2>
+        <div id="paypal-button-container"></div>
+    </main>
+
+    <footer>
+        <!-- 复用index.html的页脚 -->
+    </footer>
+
+    <script src="https://www.paypal.com/sdk/js?client-id=YOUR_CLIENT_ID&currency=CNY"></script>
+    <script>
+        paypal.Buttons({
+            createOrder: function(data, actions) {
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: '999.00'
+                        }
+                    }]
+                });
+            },
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(details) {
+                    alert('支付成功！');
+                    window.location.href = 'success.html';
+                });
+            }
+        }).render('#paypal-button-container');
+    </script>
+</body>
+</html> 

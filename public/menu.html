@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>菜单 - 伊卡奶茶店</title>
+    
+    <style>
+        /* 复用index.html的样式 */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+            color: #333;
+        }
+        header {
+            background-color: #ff6b6b;
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        nav {
+            background-color: #ff8e8e;
+            padding: 10px;
+            text-align: center;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+        }
+        main {
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .menu-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        .menu-item {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            text-align: center;
+        }
+        .menu-item:hover {
+            transform: translateY(-5px);
+        }
+        .menu-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        .menu-item h3 {
+            margin: 10px 0;
+            color: #333;
+        }
+        .menu-item p {
+            color: #ff6b6b;
+            font-size: 18px;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+        .product-intro {
+            color: #666;
+            font-size: 14px;
+            margin: 10px 0;
+            line-height: 1.4;
+        }
+        .product-ingredient {
+            color: #888;
+            font-size: 12px;
+            margin: 5px 0;
+        }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 30px;
+        }
+        .pagination button {
+            background-color: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .pagination button.active {
+            background-color: #ff8e8e;
+        }
+        .search-container {
+            margin: 20px 0;
+            text-align: center;
+        }
+        .search-container input {
+            padding: 10px;
+            width: 300px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 50%; /* Could be more or less, depending on screen size */
+            display: flex;
+        }
+
+        .modal-body {
+            display: flex;
+            align-items: center;
+        }
+
+        .modal-info {
+            margin-left: 20px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .modal-info h2, .modal-info p {
+            text-align: center; /* 文本居中 */
+            font-size: 1.2em; /* 字体大小增加 */
+        }
+
+        .modal-info p {
+            margin-top: 10px; /* 增加一些间距 */
+        }
+
+        .quantity-selector {
+            display: flex;
+            justify-content: center; /* Center the input box */
+            margin-top: 10px;
+        }
+
+        .quantity-selector input {
+            width: 60px; /* Adjust width as needed */
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>伊卡奶茶店</h1>
+        <p>每一杯都是用心制作的美味</p>
+    </header>
+    <nav>
+        <a href="index.html">首页</a>
+        <a href="menu.html">菜单</a>
+        <a href="about.html">关于我们</a>
+        <a href="contact.html">联系我们</a>
+        <a href="cart.html">购物车</a>
+    </nav>
+
+    <main>
+        <h2>我们的菜单</h2>
+        
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="搜索产品...">
+        </div>
+
+        <div class="menu-container" id="menuContainer">
+            <!-- 产品将通过JavaScript动态加载 -->
+        </div>
+
+        <div class="pagination" id="pagination">
+            <!-- 分页按钮将通过JavaScript动态生成 -->
+        </div>
+    </main>
+
+
+
+
+    <footer>
+        <p>© 2023 伊卡奶茶店. 保留所有权利.</p>
+        <p>地址：上海市浦东新区奶茶路123号 | 电话：021-12345678</p>
+    </footer>
+
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="modal-body">
+                <img id="modalImage" src="" alt="产品图片" style="width: 50%;">
+                <div class="modal-info">
+                    <h2 id="modalName"></h2>
+                    <p id="modalIntroduce"></p>
+                    <p id="modalIngredient"></p>
+                    <p id="modalPrice"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 购物车模态框 -->
+    <div id="cartModal" style="display:none; position:fixed; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:100;">
+        <div style="background:white; padding:20px; width:300px; margin:50px auto;">
+            <h2>购物车内容</h2>
+            <div id="cartDetails"></div>
+            <button onclick="closeCartModal()">关闭</button>
+        </div>
+    </div>
+
+    <script>
+        const itemsPerPage = 9;  // 每页显示的产品数量
+        let currentPage = 1;  // 当前页码
+        let allProducts = [];  // 所有产品的数组
+        let filteredProducts = [];  // 过滤后的产品数组
+
+        // 从服务器获取产品数据
+        fetch('/api/products')
+            .then(response => response.json())
+            .then(data => {
+                allProducts = data;  // 存储所有产品数据
+                filteredProducts = allProducts;  // 初始时没有过滤
+                renderMenu(currentPage);  // 渲染第一页
+                renderPagination();  // 渲染分页按钮
+            })
+            .catch(error => console.error('获取产品数据时出错:', error));
+
+        // 渲染菜单
+        function renderMenu(page) {
+            const start = (page - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+            const menuContainer = document.getElementById('menuContainer');
+            const productsToShow = filteredProducts.slice(start, end);
+
+            menuContainer.innerHTML = productsToShow.map(product => `
+                <div class="menu-item">
+                    <img src="/images/${product.image_position}" alt="${product.product_name}" 
+                         onclick="showModal('${product.image_position}', '${product.product_name}', '${product.product_introduce}', '${product.product_ingredient}', '${product.product_price}', event)">
+                    <h3>${product.product_name}</h3>
+                    <div class="quantity-selector" onclick="event.stopPropagation();">
+                        <input type="number" id="quantity-${product.product_id}" value="0" min="0" style="width: 60px; text-align: center;" onclick="event.stopPropagation();">
+                    </div>
+                    <button onclick="addToCart('${product.product_id}', '${product.product_name}', '${product.product_price}',parseInt(document.getElementById('quantity-${product.product_id}').value), event)">添加到购物车</button>
+                </div>
+            `).join('');
+        }
+
+        // 渲染分页
+        function renderPagination() {
+            const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+            const pagination = document.getElementById('pagination');
+            pagination.innerHTML = `
+                <button onclick="changePage(1)">首页</button>
+                ${Array.from({length: totalPages}, (_, i) => `
+                    <button class="${i + 1 === currentPage ? 'active' : ''}" 
+                            onclick="changePage(${i + 1})">${i + 1}</button>
+                `).join('')}
+                <button onclick="changePage(${totalPages})">末页</button>
+            `;
+        }
+
+        // 切换页面
+        function changePage(page) {
+            currentPage = page;
+            renderMenu(page);
+            renderPagination();
+        }
+
+        // 搜索功能
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const keyword = e.target.value.toLowerCase();
+            console.log('搜索关键词:', keyword);
+            filteredProducts = allProducts.filter(product => 
+                product.product_name.toLowerCase().includes(keyword) ||
+                product.product_introduce.toLowerCase().includes(keyword)
+            );
+            console.log('搜索结果:', filteredProducts);
+            currentPage = 1;
+            renderMenu(currentPage);
+            renderPagination();
+        });
+
+        function showModal(image, name, introduce, ingredient, price, event) {
+            event.stopPropagation();  // 阻止事件冒泡
+            const modal = document.getElementById('productModal');
+            document.getElementById('modalImage').src = `/images/${image}`;
+            document.getElementById('modalName').textContent = name;
+            document.getElementById('modalIntroduce').textContent = introduce;
+            document.getElementById('modalIngredient').textContent = ingredient;
+            document.getElementById('modalPrice').textContent = `价格: ¥${price}`;
+            modal.style.display = 'block';
+        }
+
+        document.getElementsByClassName('close')[0].onclick = function() {
+            document.getElementById('productModal').style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('productModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        function changeQuantity(productId, change, event) {
+            event.stopPropagation();  // 阻止事件冒泡
+            var quantityInput = document.getElementById('quantity-' + productId);
+            var quantity = parseInt(quantityInput.value);
+            quantity += change;
+            if (quantity < 1) quantity = 1;
+            quantityInput.value = quantity;
+        }
+
+        function confirmPurchase() {
+            const cartItems = [];
+            document.querySelectorAll('.menu-item').forEach(item => {
+                const productId = item.getAttribute('data-product-id');
+                const quantity = document.getElementById('quantity-' + productId).value;
+                if (quantity > 0) {
+                    cartItems.push({
+                        productId: productId,
+                        quantity: quantity
+                    });
+                }
+            });
+
+            fetch('/api/cart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ cartItems: cartItems })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                alert('购买成功!');
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+
+        function addToCart(product_id, product_name,price, quantity, event) {
+            event.stopPropagation();  // 阻止事件冒泡
+            // 发送数据到服务器
+            alert(product_name,price, quantity)
+            fetch('/api/cart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    product_id: product_id,
+                    product_name: product_name,
+                    product_price: price/* 获取产品价格 */,  // 需要确保传递产品价格
+                    product_num: quantity
+                })
+                
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('成功添加到购物车:', data);
+                alert('产品已成功添加到购物车');
+            })
+            .catch((error) => {
+                console.error('添加到购物车时出错:', error);
+            });
+        }   
+
+        function updateCartModal(cartItems) {
+            const cartDetails = document.getElementById('cartDetails');
+
+            cartDetails.innerHTML = cartItems.map(item => `
+                <div>
+                    <h4>${item.product_name}</h4>
+                    <p>数量: ${item.quantity}</p>
+                    <p>价格: ¥${item.product_price}</p>
+                </div>
+            `).join('');
+        }
+
+        function showCartModal() {
+            document.getElementById('cartModal').style.display = 'block';
+        }
+
+        function closeCartModal() {
+            document.getElementById('cartModal').style.display = 'none';
+        }
+    </script>
+</body>
+</html> 

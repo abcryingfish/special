@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>伊卡奶茶店</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* 轮播图样式 */
+        .carousel {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* 将轮播图置于文字背后 */
+            overflow: hidden;
+        }
+        .carousel img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* 保持图片比例并覆盖整个区域 */
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        .carousel img.active {
+            opacity: 0.8; /* 设置透明度 */
+        }
+
+        /* 小圆点样式 */
+        .carousel-dots {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+        .carousel-dots .dot {
+            width: 10px;
+            height: 10px;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .carousel-dots .dot.active {
+            background-color: white;
+        }
+
+        /* 箭头样式 */
+        .carousel-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.2);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s ease;
+        }
+        .carousel-arrow:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+        .carousel-arrow.left {
+            left: 20px;
+        }
+        .carousel-arrow.right {
+            right: 20px;
+        }
+
+        /* 页眉样式 */
+        header {
+            position: relative;
+            color: white;
+            padding: 30px 20px; /* 高度减半 */
+            text-align: center;
+            background-color: transparent; /* 移除背景颜色 */
+            height: 200px; /* 高度减半 */
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end; /* 将内容对齐到底部 */
+            align-items: flex-end; /* 将内容对齐到右侧 */
+        }
+
+        /* 文字描边样式 */
+        header h1, header p {
+            text-shadow: 2px 2px 4px #ff6b6b; /* 粉色描边效果 */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>伊卡奶茶店</h1>
+        <p>每一杯都是用心制作的美味</p>
+        <!-- 轮播图 -->
+        <div class="carousel">
+            <img src="images/1.jpg" alt="轮播图1" class="active">
+            <img src="images/2.jpg" alt="轮播图2">
+            <img src="images/3.jpg" alt="轮播图3">
+        </div>
+
+        
+        <!-- 小圆点 -->
+        <div class="carousel-dots">
+            <div class="dot active" data-index="0"></div>
+            <div class="dot" data-index="1"></div>
+            <div class="dot" data-index="2"></div>
+        </div>
+        <!-- 箭头 -->
+        <button class="carousel-arrow left" onclick="showPrevImage()">&#10094;</button>
+        <button class="carousel-arrow right" onclick="showNextImage()">&#10095;</button>
+    </header>
+    <nav>
+        <a href="index.html">首页</a>
+        <a href="menu.html">菜单</a>
+        <a href="about.html">关于我们</a>
+        <a href="contact.html">联系我们</a>
+    </nav>
+
+    <main>
+
+
+        <!-- 表格部分 -->
+        <section class="hero">
+            <h2>欢迎来到伊卡奶茶店</h2>
+            <p>我们提供最新鲜的原料，最独特的配方，带给你最美好的味觉体验</p>
+            <button onclick="location.href='menu.html'" style="background-color: #ff6b6b; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">查看菜单</button>
+            <table style="margin-top: 20px; width: 100%; border-collapse: collapse;">
+
+
+        <!-- 将产品部分移动到表格之前 -->
+        <section class="products" style="margin-top: 50px;">
+            <div class="product">
+                <img src="images/1.jpg" alt="经典奶茶">
+                <h3 style="text-align: center;">经典奶茶</h3>
+            </div>
+            <div class="product">
+                <img src="images/1.jpg" alt="珍珠奶茶">
+                <h3 style="text-align: center;">珍珠奶茶</h3>
+            </div>
+            <div class="product">
+                <img src="images/1.jpg" alt="抹茶拿铁">
+                <h3 style="text-align: center;">抹茶拿铁</h3>
+            </div>
+        </section>
+
+                <thead>
+                    <tr>
+                        <th>名字</th>
+                        <th>学号</th>
+                        <th>职位</th>
+                        <th>工作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>洪梓铭</td>
+                        <td>24444227</td>
+                        <td>developer</td>
+                        <td>coding</td>
+                    </tr>
+                    <tr>
+                        <td>珍珠奶茶</td>
+                        <td>¥20</td>
+                        <td>4.7</td>
+                        <td>★★★★★</td>
+                    </tr>
+                    <tr>
+                        <td>抹茶拿铁</td>
+                        <td>¥22</td>
+                        <td>4.6</td>
+                        <td>★★★★☆</td>
+                    </tr>
+                    <tr>
+                        <td>椰果奶茶</td>
+                        <td>¥20</td>
+                        <td>4.4</td>
+                        <td>★★★★☆</td>
+                    </tr>
+                    <tr>
+                        <td>红豆奶茶</td>
+                        <td>¥19</td>
+                        <td>4.3</td>
+                        <td>★★★★☆</td>
+                    </tr>
+                    <tr>
+                        <td>布丁奶茶</td>
+                        <td>¥21</td>
+                        <td>4.5</td>
+                        <td>★★★★★</td>
+                    </tr>
+                    <tr>
+                        <td>焦糖奶茶</td>
+                        <td>¥23</td>
+                        <td>4.8</td>
+                        <td>★★★★★</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2023 伊卡奶茶店. 保留所有权利.</p>
+        <p>地址：上海市浦东新区奶茶路123号 | 电话：021-12345678</p>
+    </footer>
+
+    <script>
+        // 轮播图逻辑
+        const carouselImages = document.querySelectorAll('.carousel img');
+        const dots = document.querySelectorAll('.carousel-dots .dot');
+        let currentIndex = 0;
+
+        function showImage(index) {
+            // 隐藏当前图片
+            carouselImages[currentIndex].classList.remove('active');
+            dots[currentIndex].classList.remove('active');
+            // 更新当前索引
+            currentIndex = index;
+            // 显示新图片
+            carouselImages[currentIndex].classList.add('active');
+            dots[currentIndex].classList.add('active');
+        }
+
+        function showNextImage() {
+            const nextIndex = (currentIndex + 1) % carouselImages.length;
+            showImage(nextIndex);
+        }
+
+        function showPrevImage() {
+            const prevIndex = (currentIndex - 1 + carouselImages.length) % carouselImages.length;
+            showImage(prevIndex);
+        }
+
+        // 每3秒切换一次图片
+        setInterval(showNextImage, 3000);
+
+        // 小圆点点击事件
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                showImage(index);
+            });
+        });
+
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const keyword = e.target.value.toLowerCase();  // 获取用户输入并转换为小写
+            console.log('搜索关键词:', keyword);
+            filteredProducts = allProducts.filter(product => 
+                product.product_name.toLowerCase().includes(keyword) ||
+                product.product_introduce.toLowerCase().includes(keyword)
+            );  // 过滤产品数组，只保留包含关键词的产品
+            console.log('搜索结果:', filteredProducts);
+            currentPage = 1;  // 重置到第一页
+            renderMenu(currentPage);  // 重新渲染产品列表
+            renderPagination();  // 重新渲染分页按钮
+        });
+    </script>
+</body>
+</html> 
