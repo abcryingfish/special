@@ -125,10 +125,13 @@
     
     <script>
         function removeFromCart(product_id) {
-            fetch('/api/cart/${product_id}', { method: 'DELETE' })
             
+
+            const product_del_id = parseInt(product_id, 10);
+            // alert(typeof product_del_id)
+            fetch('/api/cart/' + product_del_id, { method: 'DELETE' })
+            // alert('/api/cart/' + product_del_id)
             .then(response => {
-                    alert('123')
                     if (response.ok) {
                         alert('OK')
                         // loadCartItems();  // 重新加载购物车
