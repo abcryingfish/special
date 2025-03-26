@@ -96,25 +96,26 @@ app.listen(PORT, () => {
 
 
 // server.js 或相应的后端文件
-app.delete('/api/cart/:product_del_id', async(req, res) => {
-    console.log(req.params.product_del_id);
+app.delete('/api/cart/:product_del_id', (req, res) => {
+    //console.log("Product ID:" + req.params.product_del_id);
     
     const productId = req.params.product_del_id;
     try {
         // 假设您使用 MySQL 数据库
         const sql = 'DELETE FROM cart WHERE product_id = ?';
-        const [result] = await pool.execute(sql, [productId]);
-
-        if (result.affectedRows > 0) {
-            res.status(200).json({ message: '商123' });
+        connection.query(sql, [productId], (err, result) => {
+            if (err) {
+                console.error('数据库错误:', err); // 打印错误信息
+                return res.status(500).json({ error: '删除商品失败' });
+            }
+            if (result.affectedRows === 0) {
+                return res.status(404).json({ error: '未找到该商品' }); // 如果没有找到商品
+            }
             res.status(200).json({ message: '商品已成功移除' });
-        } else {
-            res.status(404).json({ message: '未找到对应的商品' });
-        }
+        });
     } catch (error) {
-        console.error('删除商品时出错:', error);
-        res.status(500).json({ error: '删除商品失败' });
-
+        console.error('删除商品时出错: 2', error);
+        //res.status(500).json({ error: '删除商品失败' });
     }
 });
 
