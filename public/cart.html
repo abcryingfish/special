@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>购物车 - 伊卡奶茶店</title>
+    <title>cart - Yika</title>
     <link rel="stylesheet" href="styles.css"> <!-- Assuming you have a CSS file -->
     <style>
         body {
@@ -100,27 +100,27 @@
 </head>
 <body>
     <header>
-        <h1>伊卡奶茶店购物车</h1>
+        <h1>Yika's cart</h1>
     </header>
     <nav>
-        <a href="index.html">首页</a>
-        <a href="menu.html">菜单</a>
-        <a href="about.html">关于我们</a>
-        <a href="contact.html">联系我们</a>
-        <a href="cart.html">购物车</a>
+        <a href="index.html">home</a>
+        <a href="menu.html">menu</a>
+        <a href="about.html">about</a>
+        <a href="contact.html">contact</a>
+        <a href="cart.html">cart</a>
     </nav>
     <main>
-        <h2>购物车</h2>
+        <h2>cart</h2>
         <div class="total-container">
-            <div class="total-amount" id="totalAmount">总金额: ¥0.00</div>
-            <button class="checkout-button" onclick="checkout()">结算</button>
+            <div class="total-amount" id="totalAmount">Total: ¥0.00</div>
+            <button class="checkout-button" onclick="checkout()">Settle Accounts</button>
         </div>
         <div id="cartItemsContainer">
             <!-- 购物车中的商品将在这里动态显示 -->
         </div>
     </main>
     <footer>
-        <p>© 2023 伊卡奶茶店. 保留所有权利.</p>
+        <p>© 2023 Yika. All rights reserved.</p>
     </footer>
     
     <script>
@@ -160,7 +160,7 @@
                     let totalAmount = 0; // 初始化总金额
                     let total_price = 0;
                     if (cartItems.length === 0) {
-                        cartItemsContainer.innerHTML = '<p>您的购物车是空的。</p>';
+                        cartItemsContainer.innerHTML = '<p>The curt is empty</p>';
                     } else {
                         cartItemsContainer.innerHTML = cartItems.map(item => {
                             totalAmount += item.product_price * item.product_num; // 计算总金额
@@ -169,18 +169,18 @@
                                 <div class="cart-item">
                                     <div class="left">
                                         <h3>${item.product_name}</h3>
-                                        <button class="remove-button" onclick="removeFromCart(${item.product_id})">移除</button>
+                                        <button class="remove-button" onclick="removeFromCart(${item.product_id})">remove</button>
                                     </div>
                                     <div class="right">
-                                        <p>数量: ${item.product_num}</p>
-                                        <p>价格: ¥${item.product_price}</p>
-                                        <p>价格: ¥${total_price}</p>
+                                        <p>Quantity: ${item.product_num}</p>
+                                        <p>Price: ¥${item.product_price}</p>
+                                        <p>Price: ¥${total_price}</p>
                                     </div>
                                 </div>
                             `;
                         }).join('');  // 使用 join('') 将数组转换为字符串
                     }
-                    totalAmountElement.innerText = `总金额: ¥${totalAmount.toFixed(2)}`; // 更新总金额显示
+                    totalAmountElement.innerText = `Total: ¥${totalAmount.toFixed(2)}`; // 更新总金额显示
                 })
                 .catch(error => {
                     console.error('获取购物车数据时出错:', error);
