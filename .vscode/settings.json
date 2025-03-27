@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/eb3d57dd-ac2b-46bb-a73c-3dda26690c02/resourceGroups/milktea-shop/providers/Microsoft.Web/sites/yika-site",
+    "appService.deploySubpath": "."
+}

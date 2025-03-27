@@ -5,14 +5,17 @@ const fs = require('fs');
 const cors = require('cors');
 const { addListener } = require('process');
 const app = express();
-const PORT = 3000;
+const PORT = 8080;
 
 // 创建数据库连接
 const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',  // 您的数据库用户名
-    password: 'x8x8x888',  // 您的数据库密码
-    database: 'products'  // 您的数据库名
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,  // 您的数据库用户名
+    password: process.env.DB_PASSWORD,  // 您的数据库密码
+    database: process.env.DB_NAME,  // 您的数据库名
+    ssl: {
+        rejectUnauthorized: true
+    }
 });
 
 // 连接数据库
