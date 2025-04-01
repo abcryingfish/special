@@ -41,7 +41,7 @@
             padding: 20px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             margin-bottom: 20px;
-            display: flex; /* 使用 Flexbox */
+            display: none; /* 使用 Flexbox */
             justify-content: space-between; /* 使内容两端对齐 */
             align-items: center; /* 垂直居中对齐 */
         }
@@ -163,14 +163,13 @@
         <p>Address：イカロスさいこう | Tel：021-12345678</p>
     </footer>
     
-    <div id="paymentModal" class="modal">
+    <div id="paymentModal" class="modal" style="display: none;">
         <div class="modal-content">
             <span class="close" onclick="closePaymentModal()">&times;</span>
             <h2>payment</h2>
             <div class="order-summary">
-                <!-- <h3>content</h3> -->
                 <div class="total-amount">
-                    sum: ¥<span id="modalTotalAmount">0.00</span>
+                    sum: ¥<span id="modalTotalAmount">0.00</span> 
                 </div>
             </div>
             <p>pay way：</p>
@@ -253,7 +252,6 @@
         function loadCartItems() {
             const cartItemsContainer = document.getElementById('cartItemsContainer');
             const totalAmountElement = document.getElementById('totalAmount');
-
             // 从服务器获取购物车数据
             fetch('/api/cart')  // 确保路径正确
                 .then(response => response.json())
@@ -291,13 +289,6 @@
 
     document.addEventListener('DOMContentLoaded', function() {
         loadCartItems();
-
-        
-
-        
-
-        // 页面加载时调用
-        window.onload = loadCartItems;
     });
     </script>
 </body>
