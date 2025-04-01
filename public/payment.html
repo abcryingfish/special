@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>cart - Yika</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Assuming you have a CSS file -->
+    <title>支付 - 伊卡奶茶店</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -79,15 +78,14 @@
 </head>
 <body>
     <header>
-        <h1>Yika</h1>
-        <p>Every cup's made with love and tastes amazing</p>
+        <h1>伊卡奶茶店</h1>
+        <p>订单支付</p>
     </header>
     <nav>
-        <a href="index.html">home</a>
-        <a href="menu.html">menu</a>
-        <a href="about.html">about</a>
-        <a href="contact.html">contact</a>
-        <a href="cart.html">cart</a>
+        <a href="index.html">首页</a>
+        <a href="menu.html">菜单</a>
+        <a href="about.html">关于我们</a>
+        <a href="contact.html">联系我们</a>
     </nav>
 
     <main>
@@ -96,37 +94,26 @@
             <div class="order-summary">
                 <h3>订单摘要</h3>
                 <div class="total-amount">
-                    总计: ¥<span href="contact.html">0.00</span>
+                    总计: ¥<span id="totalAmount">0.00</span>
                 </div>
             </div>
             <p>请选择支付方式：</p>
             <div id="paypal-button-container"></div>
-
-
-            <!-- <a href="contact.html">联系我们</a> -->
         </div>
     </main>
 
     <footer>
-        <p>© 2023 Yika. All rights reserved.</p>
-        <p>Address：イカロスさいこう | Tel：021-12345678</p>
+        <p>© 2023 伊卡奶茶店. 保留所有权利.</p>
+        <p>地址：上海市浦东新区奶茶路123号 | 电话：021-12345678</p>
     </footer>
 
     <!-- PayPal SDK -->
     <script src="https://www.paypal.com/sdk/js?client-id=AXpKE8SYdyBlELwsAw9iAzJtpCmAPErpMEigzrILjStsBnY_g5JpGDzn6vRZUYWTNMPuYq_wVKu9yDH0&currency=USD"></script>
     <script>
-
-
-        function getCartItems() {
-            const cartItems = localStorage.getItem('total_price');
-            return cartItems ? JSON.parse(total_price) : [];
-        }
-
-
         // 从数据库获取订单金额
         async function getOrderAmount() {
             try {
-                const orderAmount = localStorage.getItem('total_price');;  // 固定金额为15元人民币
+                const orderAmount = 15.00;  // 固定金额为15元人民币
                 const usdAmount = (parseFloat(orderAmount) / 7).toFixed(2);
                 document.getElementById('totalAmount').textContent = 
                     orderAmount + ' (USD $' + usdAmount + ')';
