@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cart - Yika</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Assuming you have a CSS file -->
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+            color: #333;
+        }
+        header {
+            background-color: #ff6b6b;
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        nav {
+            background-color: #ff8e8e;
+            padding: 10px;
+            text-align: center;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+        }
+        main {
+            padding: 40px 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .payment-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .order-summary {
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+        }
+        .total-amount {
+            font-size: 24px;
+            color: #ff6b6b;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        #paypal-button-container {
+            max-width: 300px;
+            margin: 0 auto;
+            margin-top: 20px;
+        }
+        .payment-button {
+            background-color: #ff6b6b;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Yika</h1>
+        <p>Every cup's made with love and tastes amazing</p>
+    </header>
+    <nav>
+        <a href="index.html">home</a>
+        <a href="menu.html">menu</a>
+        <a href="about.html">about</a>
+        <a href="contact.html">contact</a>
+        <a href="cart.html">cart</a>
+    </nav>
+
+    <main>
+        <div class="payment-container">
+            <h2>订单支付</h2>
+            <div class="order-summary">
+                <h3>订单摘要</h3>
+                <div class="total-amount">
+                    总计: ¥<span href="contact.html">0.00</span>
+                </div>
+            </div>
+            <p>请选择支付方式：</p>
+            <div id="paypal-button-container"></div>
+
+
+            <!-- <a href="contact.html">联系我们</a> -->
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2023 Yika. All rights reserved.</p>
+        <p>Address：イカロスさいこう | Tel：021-12345678</p>
+    </footer>
+
+    <!-- PayPal SDK -->
+    <script src="https://www.paypal.com/sdk/js?client-id=AXpKE8SYdyBlELwsAw9iAzJtpCmAPErpMEigzrILjStsBnY_g5JpGDzn6vRZUYWTNMPuYq_wVKu9yDH0&currency=USD"></script>
+    <script>
+
+
+        function getCartItems() {
+            const cartItems = localStorage.getItem('total_price');
+            return cartItems ? JSON.parse(total_price) : [];
+        }
+
+
+        // 从数据库获取订单金额
+        async function getOrderAmount() {
+            try {
+                const orderAmount = localStorage.getItem('total_price');;  // 固定金额为15元人民币
+                const usdAmount = (parseFloat(orderAmount) / 7).toFixed(2);
+                document.getElementById('totalAmount').textContent = 
+                    orderAmount + ' (USD $' + usdAmount + ')';
+                return usdAmount;
+            } catch (error) {
+                console.error('计算金额错误:', error);
+                return null;
+            }
+        }
+
+        paypal.Buttons({
+            style: {
+                layout: 'vertical',
+                color: 'blue',
+                shape: 'rect',
+                label: 'paypal'
+            },
+            createOrder: async function(data, actions) {
+                const amount = await getOrderAmount();
+                if (!amount) {
+                    throw new Error('无法获取订单金额');
+                }
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: amount,
+                            currency_code: 'USD'
+                        }
+                    }]
+                });
+            },
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(details) {
+                    // 记录支付成功的交易
+                    fetch('/api/payment/complete', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            paypalOrderId: details.id,
+                            status: 'completed'
+                        })
+                    }).then(() => {
+                        alert('支付成功！');
+                        window.location.href = 'success.html';
+                    });
+                });
+            },
+            onError: function(err) {
+                console.error('PayPal 按钮错误:', err);
+                alert('支付过程中出现错误，请稍后重试');
+            }
+        }).render('#paypal-button-container').catch(error => {
+            console.error('PayPal 按钮渲染错误:', error);
+        });
+    </script>
+</body>
+</html> 

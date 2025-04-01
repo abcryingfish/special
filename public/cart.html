@@ -16,7 +16,6 @@
         header {
             background-color: #ff6b6b;
             color: white;
-            /* padding: 0px 20px; */
             text-align: center;
             height: 80px;
         }
@@ -100,7 +99,8 @@
 </head>
 <body>
     <header>
-        <h1>Yika's cart</h1>
+        <h1>Yika</h1>
+        <p>Every cup's made with love and tastes amazing</p>
     </header>
     <nav>
         <a href="index.html">home</a>
@@ -113,7 +113,7 @@
         <h2>cart</h2>
         <div class="total-container">
             <div class="total-amount" id="totalAmount">Total: ¥0.00</div>
-            <button class="checkout-button" onclick="checkout()">Settle Accounts</button>
+            <button class="checkout-button" onclick="window.location.href='payment.html'">settlement</button>
         </div>
         <div id="cartItemsContainer">
             <!-- 购物车中的商品将在这里动态显示 -->
@@ -187,6 +187,10 @@
                     console.error('获取购物车数据时出错:', error);
                     cartItemsContainer.innerHTML = '<p>无法加载购物车数据。</p>';
                 });
+                localStorage.setItem('total_price', JSON.stringify(total_price));
+                window.location.href = 'payment.html'; // 跳转到支付页面
+
+
         }
 
     document.addEventListener('DOMContentLoaded', function() {
